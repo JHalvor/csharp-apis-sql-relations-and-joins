@@ -1,0 +1,60 @@
+DROP TABLE IF EXISTS films;
+CREATE TABLE IF NOT EXISTS films(
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL UNIQUE,
+    genre VARCHAR(255) NOT NULL,
+    release_year INTEGER NOT NULL,
+    score INTEGER NOT NULL,
+    director_id INTEGER NOT NULL,
+    stars_id INTEGER NOT NULL,
+    writers_id INTEGER NOT NULL
+);
+
+DROP TABLE IF EXISTS directors;
+CREATE TABLE IF NOT EXISTS directors(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    director_country VARCHAR(255) NOT NULL,
+    film_id INTEGER NOT NULL
+);
+
+
+DROP TABLE IF EXISTS stars;
+CREATE TABLE IF NOT EXISTS stars(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    dob VARCHAR(255) NOT NULL,
+    film_id INTEGER NOT NULL
+);
+
+DROP TABLE IF EXISTS writers;
+CREATE TABLE IF NOT EXISTS writers(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    film_id INTEGER NOT NULL
+);
+
+ALTER TABLE films
+ADD CONSTRAINT fk_directors
+FOREIGN KEY (director_id) REFERENCES directors(id);
+
+ALTER TABLE films
+ADD CONSTRAINT fk_stars
+FOREIGN KEY (stars_id) REFERENCES stars(id);
+
+ALTER TABLE films
+ADD CONSTRAINT fk_writers
+FOREIGN KEY (writers_id) REFERENCES writers(id);
+
+ALTER TABLE directors
+ADD CONSTRAINT fk_films
+FOREIGN KEY (film_id) REFERENCES films(id);
+
+ALTER TABLE stars
+ADD CONSTRAINT fk_films
+FOREIGN KEY (film_id) REFERENCES films(id);
+
+ALTER TABLE writers
+ADD CONSTRAINT fk_films
+FOREIGN KEY (film_id) REFERENCES films(id);
